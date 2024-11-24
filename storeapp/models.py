@@ -21,6 +21,10 @@ class Category(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args,**kwargs)
+        
+    @classmethod
+    def get_all_category(cls):
+        return cls.objects.filter(is_active=True)
                     
     
     def __str__(self):
@@ -47,6 +51,10 @@ class Product(models.Model):
         else:
             new_price = self.old_price
         return new_price
+    
+    @classmethod
+    def get_all_products(cls):
+        return cls.objects.filter(is_active=True)
     
     @property
     def img(self):
