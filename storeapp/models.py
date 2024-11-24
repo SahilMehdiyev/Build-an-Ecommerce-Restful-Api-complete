@@ -10,24 +10,18 @@ from django.utils.text import slugify
 
         
 class Category(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200,null=True, blank=True)
     slug = models.SlugField(default= None)
     featured_product = models.OneToOneField('Product', on_delete=models.CASCADE, blank=True, null=True, related_name='featured_product')
     icon = models.CharField(max_length=100, default=None, blank = True, null=True)
-
-
+    is_active = models.BooleanField(default=False)
+    
 
     def save(self,*args,**kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args,**kwargs)
-                
-    @classmethod
-    def categories_with_no_product(cls):
-        return cls.objects.filter(products__isnull=True)
-
-
-    
+                    
     
     def __str__(self):
         return self.title
@@ -44,7 +38,7 @@ class Product(models.Model):
     inventory = models.IntegerField(default=5)
     top_deal=models.BooleanField(default=False)
     flash_sales = models.BooleanField(default=False)
-    
+    is_active = models.BooleanField(default=False)
 
     @property
     def price(self):

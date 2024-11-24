@@ -18,18 +18,22 @@ class ProductSerializer(serializers.ModelSerializer):
             'top_deal',
             'flash_sales',
             'slug',  
+            'is_active'
         ]
         
         
         
 class CategorySerializer(serializers.ModelSerializer):
     products = ProductSerializer(many=True,read_only=True)
+
     class Meta:
         model = Category
         fields = [
-                  'id',
+                  'id', 
                   'title',
                   'slug',
+                  'featured_product',
                   'icon',
-                  'featured_product'
-            ]
+                  'is_active',
+                  'products'
+                ]
